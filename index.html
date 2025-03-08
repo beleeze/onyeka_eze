@@ -7,23 +7,16 @@
     <link rel="stylesheet" href="styles.css">
     <script defer src="script.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
+
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
             background: url('profit.jpg') no-repeat center center fixed;
             background-size: cover;
-            color: rgb(12, 12, 12);
+            color: #fff;
             text-align: center;
-            position: relative;
-        }
-        header {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
             position: relative;
         }
         .background-overlay {
@@ -32,7 +25,16 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgb(252, 251, 251);
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+        header {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
         }
         .name {
             font-size: 50px;
@@ -48,15 +50,14 @@
         .intro img {
             width: 40%;
             max-width: 500px;
-            height: auto;
-            border-radius: 0%; /* Changed to square */
+            border-radius: 10px;
             object-fit: cover;
-            position: relative;
-            left: -100%;
-            transition: left 1.5s ease-in-out;
+            box-shadow: 0px 10px 20px rgba(255, 255, 255, 0.2);
+            transform: translateX(-100%);
+            transition: transform 1.5s ease-in-out;
         }
         .intro img.show {
-            left: 0;
+            transform: translateX(0);
         }
         .caption {
             font-size: 34px;
@@ -64,8 +65,7 @@
             margin-top: 20px;
             opacity: 0;
             transition: opacity 2s ease-in-out;
-            position: relative;
-            background: linear-gradient(45deg, #ff0000, #ff7300, #ffeb00, #00ff00, #00eaff, #0000ff, #8f00ff);
+            background: linear-gradient(45deg, #ff7300, #ffeb00, #00ff00, #00eaff, #0000ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -73,13 +73,13 @@
             opacity: 1;
         }
         .section {
-            background: rgba(255, 255, 255, 0.95);
-            color: black;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
             padding: 30px;
             border-radius: 15px;
             margin: 20px auto;
             width: 80%;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 6px 12px rgba(255, 255, 255, 0.3);
             border-left: 5px solid #ff7300;
             position: relative;
             z-index: 2;
@@ -94,26 +94,63 @@
         h2 {
             font-size: 32px;
             font-weight: bold;
-            color: #333;
             text-transform: uppercase;
         }
         .job, .edu-item, .award-item {
-            background: #f8f9fa;
+            background: rgba(255, 255, 255, 0.2);
             padding: 15px;
             border-radius: 10px;
             margin: 10px 0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-left: 4px solid #007bff;
+            transition: transform 0.3s, background 0.3s;
+            cursor: pointer;
         }
-        .border-lines {
-            position: absolute;
-            width: 90%;
-            height: 90%;
-            top: 5%;
-            left: 5%;
-            border: 2px solid white;
+        .job:hover, .edu-item:hover, .award-item:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+        }
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        .skill-tags span {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background 0.3s;
+        }
+        .skill-tags span:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        .contact {
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            opacity: 0.7;
+            width: 70%;
+            margin: auto;
+        }
+        .contact input, .contact textarea {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        .contact button {
+            padding: 10px 20px;
+            background: #ff7300;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .contact button:hover {
+            background: #e66000;
         }
     </style>
     <script>
@@ -122,13 +159,13 @@
             const image = document.querySelector(".intro img");
             const caption = document.querySelector(".caption");
             const sections = document.querySelectorAll(".section");
-            
+
             setTimeout(() => {
                 name.classList.add("show");
                 image.classList.add("show");
                 caption.classList.add("show");
             }, 500);
-            
+
             const observer = new IntersectionObserver(entries => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -136,7 +173,7 @@
                     }
                 });
             }, { threshold: 0.2 });
-            
+
             sections.forEach(section => {
                 observer.observe(section);
             });
@@ -145,51 +182,49 @@
 </head>
 <body>
     <div class="background-overlay"></div>
-    <div class="border-lines"></div>
     <header>
         <h1 class="name">Onyeka Melinda Eze</h1>
         <div class="intro">
-            <img src="onyi.jpg" alt="Portfolio Owner" class="slide-in">
+            <img src="onyi.jpg" alt="Portfolio Owner">
             <h1 class="caption">Versatile and Results-driven Project Manager</h1>
         </div>
     </header>
-    
+
     <section class="section skills">
         <h2>Skills</h2>
         <div class="skill-tags">
             <span>Project & Change Management</span>
-            <span>Strategic Planning & Execution</span>
+            <span>Strategic Planning</span>
             <span>Stakeholder Management</span>
             <span>Business Optimization</span>
         </div>
     </section>
-    
+
     <section class="section experience">
         <h2>Experience</h2>
-        <div class="job">
-            <h3>Stanbic IBTC Bank - Project Manager</h3>
-            <p>Led large-scale transformation initiatives, increasing efficiency by 25%.</p>
-        </div>
-        <div class="job">
-            <h3>Stanbic IBTC Bank - Account Management Officer</h3>
-            <p>Managed 3,000+ business loans, optimizing processes by 25%.</p>
-        </div>
+        <div class="job">Stanbic IBTC Bank - Project Manager</div>
+        <div class="job">Stanbic IBTC Bank - Account Management Officer</div>
     </section>
-</body>
-</html>
 
-    </section>
-    
     <section class="section education">
         <h2>Education & Certifications</h2>
         <div class="edu-item">MBA - Ahmadu Bello University</div>
         <div class="edu-item">Project Management Professional (PMP)</div>
-        <div class="edu-item">Google Project Management Certification</div>
     </section>
-    
+
     <section class="section awards">
         <h2>Awards & Recognition</h2>
         <div class="award-item">Beyond Excellence Award - Stanbic IBTC Bank</div>
     </section>
+
+    <section class="section contact">
+    <h2>Contact Me</h2>
+    <form action="https://formspree.io/f/xeoajrnr" method="POST">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <textarea name="message" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+    </form>
+</section>
 </body>
 </html>
